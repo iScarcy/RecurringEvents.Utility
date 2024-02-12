@@ -1,6 +1,17 @@
 const express = require('express');
 const rc = require('./RecurringEvents');
+const fs = require("fs");
+
 var app = express();
+
+fs.readFile("./appsettings.json", "utf8", (error, data) => {
+  if (error) {
+    console.log(error);
+    return;
+  }
+  var obj = JSON.parse(data);
+  console.log(obj.mysql.user)
+});
 
 app.get("/",(req,res) => {
     res.status(200).json(rc.events);
