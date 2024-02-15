@@ -1,5 +1,6 @@
 const express = require('express');
 const rc = require('./RecurringEvents');
+const au = require("./auth")
 const fs = require("fs");
 
 var app = express();
@@ -24,7 +25,6 @@ app.get("/compleanni",(req,res) => {
     })
     res.status(200).json(birthdays);
 });
-
 
 app.get("/onomastici",(req,res) => {
     let birthdays = [...rc.events];
@@ -62,4 +62,8 @@ app.get("/eventi",(req,res) => {
     res.status(200).json(eventi);
 });
 
-app.listen(3000);
+app.get("/area",au,(req,res)=>{
+  res.send("area privata");
+});
+
+app.listen(3002);
