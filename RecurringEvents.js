@@ -11,7 +11,7 @@ const events = [
     },
     {
         "type":"Onomastico",
-        "data":"2024-04-19",
+        "data":"2024-03-19",
         "description":"Giuseppe Scarcella"
     }
 ];
