@@ -3,8 +3,11 @@ const rc = require('./RecurringEvents');
 const eventsRouter = require('./routes/eventi');
 const au = require("./auth")
 const fs = require("fs");
+const cors = require('cors');
 
 var app = express();
+
+app.use(cors());
 
 fs.readFile("./appsettings.json", "utf8", (error, data) => {
   if (error) {
