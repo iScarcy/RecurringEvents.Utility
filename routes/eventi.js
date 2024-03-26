@@ -3,22 +3,17 @@ const router  = express.Router()
 
 const rc = require('../RecurringEvents');
 
-router.get("/",(req,res) => {
-    res.status(200).json(rc.events);
-});
-
+ 
 
 router.get("/",(req,res) => {
     
-    const query = req.query;
     
     let eventi = [...rc.events];
-
-    var oggiDT = new Date(query.oggi);
+    var oggiDT = new Date(req.query.oggi);
     var mese = oggiDT.getMonth()+1;
     var day = oggiDT.getDate();
-    
-    if(query){
+    //TODO: da gestire quando req.query è vuoto
+    if(req.query){
     
         eventi = eventi.filter((evento) => {
         
@@ -32,7 +27,7 @@ router.get("/",(req,res) => {
             
         });
     }
-
+ 
     res.status(200).json(eventi);
 });
 
