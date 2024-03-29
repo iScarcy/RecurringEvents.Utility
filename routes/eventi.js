@@ -9,10 +9,11 @@ router.get("/",(req,res) => {
     
     
     let eventi = [...rc.events];
+    let allEvents = eventi;
     var oggiDT = new Date(req.query.oggi);
     var mese = oggiDT.getMonth()+1;
     var day = oggiDT.getDate();
-    //TODO: da gestire quando req.query è vuoto
+    
     if(req.query){
     
         eventi = eventi.filter((evento) => {
@@ -27,8 +28,12 @@ router.get("/",(req,res) => {
             
         });
     }
- 
-    res.status(200).json(eventi);
+    if(eventi.length==0)
+        res.status(200).json(allEvents);
+    else    
+        res.status(200).json(eventi);
+
+    
 });
 
 
