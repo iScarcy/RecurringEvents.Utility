@@ -36,6 +36,16 @@ router.get("/",(req,res) => {
     
 });
 
+router.get("/:persona", (req, res) => {
+    const {persona} = req.params;
+   
+    let eventi = [...rc.events];
+    eventi = eventi.filter((evento) => {
+        return evento.description.trim().toLocaleLowerCase() == persona.toLocaleLowerCase();
+    });
+
+    res.status(200).json(eventi);
+});
 
 
 router.post("/",(req, res) => {
