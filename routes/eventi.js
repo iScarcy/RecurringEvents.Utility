@@ -4,7 +4,26 @@ const router  = express.Router()
 
 const rc = require('../RecurringEvents');
 
- 
+class RecurringEvent {
+    
+    constructor(type, data,description) {
+      
+          switch(type){
+              case 0: this.type = "Compleanno";
+                      break;
+              case 1: this.type = "Onomastico";
+                      break;
+              case 2: this.type = "Anniversario";
+                      break;
+          }
+
+          this.data = data.substring(1, 10);
+          this.description = description;
+      
+    }
+
+    
+  }
 
 router.get("/",(req,res) => {
     
@@ -39,15 +58,31 @@ router.get("/",(req,res) => {
 
 router.get("/fetch",(req,res) => {
     var request = require ('request')
+    var fs = require('fs');
+
     request ({
         url: 'http://192.168.1.83:5071/api/event/all',
         json: true
     }, (error, response, body) => {
-        !error && response.statusCode === 200
-            ? res.status(200).json(body)
-            : console.log (error)
+        if(!error && response.statusCode === 200){
+            var events = new Array();
+            for (const key in body) {
+                  events.push(new RecurringEvent(body[key]["type"],body[key]["date"],body[key]["description"]));
+            }
+            var jsonArray = JSON.parse(JSON.stringify(events))
+
+            fs.writeFile("RecurringEventSource.js", JSON.stringify(events), function(err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+
+             res.status(200).json(jsonArray)
+            }
         })
 });
+
+
 
 router.get("/:persona", (req, res) => {
     const {persona} = req.params;
