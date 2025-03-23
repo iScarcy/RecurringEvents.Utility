@@ -1,4 +1,5 @@
 const express = require("express")
+ 
 const router  = express.Router()
 
 const rc = require('../RecurringEvents');
@@ -34,6 +35,18 @@ router.get("/",(req,res) => {
         res.status(200).json(eventi);
 
     
+});
+
+router.get("/fetch",(req,res) => {
+    var request = require ('request')
+    request ({
+        url: 'http://192.168.1.83:5071/api/event/all',
+        json: true
+    }, (error, response, body) => {
+        !error && response.statusCode === 200
+            ? res.status(200).json(body)
+            : console.log (error)
+        })
 });
 
 router.get("/:persona", (req, res) => {
