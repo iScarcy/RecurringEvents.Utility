@@ -3,6 +3,7 @@ const express = require("express")
 const router  = express.Router()
 
 const rc = require('../RecurringEvents');
+const { isDate } = require("util/types");
 
 class RecurringEvent {
     
@@ -17,7 +18,7 @@ class RecurringEvent {
                       break;
           }
 
-          this.data = data.substring(1, 10);
+          this.data = data.substring(0, 10);
           this.description = description;
       
     }
@@ -33,9 +34,10 @@ router.get("/",(req,res) => {
     var oggiDT = new Date(req.query.oggi);
     var mese = oggiDT.getMonth()+1;
     var day = oggiDT.getDate();
-    
-    if(req.query){
-    
+    var search = false
+    console.log(oggiDT)
+    if(isDate(oggiDT)){
+        search = true
         eventi = eventi.filter((evento) => {
         
         var dateDT = new Date(evento.data);
@@ -48,10 +50,13 @@ router.get("/",(req,res) => {
             
         });
     }
-    if(eventi.length==0)
-        res.status(200).json(allEvents);
-    else    
+    
+    console.log(search)
+    if(search){
         res.status(200).json(eventi);
+    }
+    else
+        res.status(200).json(allEvents);
 
     
 });
