@@ -67,14 +67,16 @@ router.get("/today",(req,res) => {
     
 });
 
-router.get("/search",(req,res) => {
+router.get("/today/:date",(req,res) => {
     
-    
+    const {date} = req.params;
+    console.log("date:"+date) ;
+
     let eventi = [...rc.events];
-    let allEvents = eventi;
-    var oggiDT = new Date(req.query.oggi);
-    var mese = oggiDT.getMonth()+1;
-    var day = oggiDT.getDate();
+   
+    var todayDT = new Date(date);
+    var mese = todayDT.getMonth()+1;
+    var day = todayDT.getDate();
     
     eventi = eventi.filter((evento) => {
     
