@@ -31,32 +31,67 @@ router.get("/",(req,res) => {
     
     let eventi = [...rc.events];
     let allEvents = eventi;
-    var oggiDT = new Date(req.query.oggi);
+    res.status(200).json(allEvents);
+
+    
+});
+
+router.get("/today",(req,res) => {
+    
+    
+    let eventi = [...rc.events];
+    let allEvents = eventi;
+    var oggiDT = new Date();
     var mese = oggiDT.getMonth()+1;
     var day = oggiDT.getDate();
     var search = false
     console.log(oggiDT)
-    if(isDate(oggiDT)){
-        search = true
-        eventi = eventi.filter((evento) => {
-        
-        var dateDT = new Date(evento.data);
-        var evento_mese     = dateDT.getMonth()+1;
-        var evento_giorno = dateDT.getDate();
-        if(evento_giorno == day && evento_mese == mese)
-        {
-          return evento.data;
-        } 
-            
-        });
-    }
+  
+   
+    eventi = eventi.filter((evento) => {
     
-    console.log(search)
-    if(search){
-        res.status(200).json(eventi);
-    }
-    else
-        res.status(200).json(allEvents);
+    var dateDT = new Date(evento.data);
+    var evento_mese     = dateDT.getMonth()+1;
+    var evento_giorno = dateDT.getDate();
+    if(evento_giorno == day && evento_mese == mese)
+    {
+        return evento.data;
+    } 
+        
+    });
+     
+    
+    res.status(200).json(eventi);
+     
+
+    
+});
+
+router.get("/search",(req,res) => {
+    
+    
+    let eventi = [...rc.events];
+    let allEvents = eventi;
+    var oggiDT = new Date(req.query.oggi);
+    var mese = oggiDT.getMonth()+1;
+    var day = oggiDT.getDate();
+    
+    eventi = eventi.filter((evento) => {
+    
+    var dateDT = new Date(evento.data);
+    var evento_mese     = dateDT.getMonth()+1;
+    var evento_giorno = dateDT.getDate();
+    if(evento_giorno == day && evento_mese == mese)
+    {
+        return evento.data;
+    } 
+        
+    });
+  
+    
+     
+    res.status(200).json(eventi);
+    
 
     
 });
